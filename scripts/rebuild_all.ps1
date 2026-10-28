@@ -64,11 +64,13 @@ if ($status -notmatch '^Up') {
     Write-Host "当前状态: $status  -> 无需重建"
 }
 
-Title '3. 等待 HiveServer2 就绪（最多 90 秒）'
+Title '3. 等待 HiveServer2 就绪（最多 120 秒）'
 $ready = $false
-for ($i = 1; $i -le 30; $i++) {
-    $out = Q 'select 1;'
-    if ($out -match '1 row selected') { $ready = $true; Write-Host "已就绪（第 $i 次探测）"; break }
+for ($i = 1; $i -le 40; $i++) {
+    Write-Host ("  第 {0} 次探测 ... " -f $i) -NoNewline
+    docker exec $Container beeline --silent=true -u $Jdbc -e 'select 1;' *> $null
+    if ($LASTEXITCODE -eq 0) { Write-Host '就绪'; $ready = $true; break }
+    Write-Host '未就绪，等 3 秒'
     Start-Sleep 3
 }
 if (-not $ready) {
