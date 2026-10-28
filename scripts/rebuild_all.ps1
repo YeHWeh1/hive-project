@@ -1,9 +1,19 @@
 ﻿<#
-  rebuild_all.ps1  —  Hive 环境一键恢复
-  用途：电脑重启、容器损坏后，重建 hive-server 容器并重新导入 ODS / DWD 全部数据
-  用法：cd E:\hive-project
-        powershell -ExecutionPolicy Bypass -File .\scripts\rebuild_all.ps1
+  rebuild_all.ps1  —  Hive 环境一键恢复（幂等：先清空再全量重建）
+
+  用途：
+    1) 电脑重启后 hive-server 容器因 pid 文件残留起不来
+    2) 容器被误删 / 损坏，ODS、DWD 的表和数据全部消失
+    3) 答辩前想把环境恢复到确定状态
+
+  用法：
+    cd E:\hive-project
+    powershell -ExecutionPolicy Bypass -File .\scripts\rebuild_all.ps1
+    powershell -ExecutionPolicy Bypass -File .\scripts\rebuild_all.ps1 -Force   # 跳过 5 秒等待
+
+  注意：会 drop 掉 ydsh_ods / ydsh_dwd 两个库后重新导入，约 2-3 分钟。
 #>
+param([switch]$Force)
 
 $ErrorActionPreference = 'Stop'
 $ProjectDir = Split-Path -Parent $PSScriptRoot
@@ -15,11 +25,18 @@ function Title($t) { Write-Host "`n===== $t =====" -ForegroundColor Cyan }
 function Run($f) {
     Write-Host "执行 $f"
     docker exec $Container beeline -u $Jdbc -f $f 2>&1 |
-        Select-String -Pattern 'FAILED|Error while|rows affected|errors' |
+        Select-String -Pattern 'FAILED|Error while|rows affected|Loading data to table' |
         ForEach-Object { Write-Host "    $($_.Line.Trim())" }
 }
 
 Set-Location $ProjectDir
+
+Title '0. 说明'
+Write-Host '本脚本会先清空 ydsh_ods / ydsh_dwd，再重新建表、导入、清洗。'
+if (-not $Force) {
+    Write-Host '5 秒后开始，按 Ctrl+C 可取消 ...'
+    Start-Sleep 5
+}
 
 Title '1. 检查 Docker'
 docker info *> $null
@@ -44,10 +61,12 @@ for ($i = 1; $i -le 30; $i++) {
 }
 if (-not $ready) { throw 'HiveServer2 未就绪，请执行: docker compose logs --tail 60 hive-server' }
 
-Title '4. 准备容器内目录'
-docker exec -u root $Container mkdir -p /sql /data
+Title '4. 清空旧库（保证幂等，避免行数翻倍）'
+docker exec $Container beeline -u $Jdbc -e "drop database if exists ydsh_ods cascade; drop database if exists ydsh_dwd cascade;" 2>&1 |
+    Select-String -Pattern 'FAILED|Error while|No rows affected' | ForEach-Object { Write-Host "    $($_.Line.Trim())" }
 
-Title '5. 拷贝数据与脚本'
+Title '5. 准备容器内目录并拷贝数据与脚本'
+docker exec -u root $Container mkdir -p /sql /data
 if (-not (Test-Path $DataDir)) { throw "数据目录不存在: $DataDir" }
 docker cp "$DataDir\." "${Container}:/data/"
 docker cp "$ProjectDir\sql\." "${Container}:/sql/"
