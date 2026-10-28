@@ -28,13 +28,30 @@ function Title($t) { Write-Host "`n===== $t =====" -ForegroundColor Cyan }
 function Q([string]$sql) {
     (docker exec $Container beeline --silent=true -u $Jdbc -e $sql 2>&1 | Out-String)
 }
+# 过滤 beeline 的无害提示（命令历史目录、SLF4J 警告等）
+$NoisePattern = '^SLF4J|Failed to create directory|No such file or directory|^Beeline version|^Closing'
+
 function Run($f) {
     Write-Host "执行 $f"
     $out = docker exec $Container beeline --silent=true -u $Jdbc -f $f 2>&1 | Out-String
-    ($out -split "`n") |
-        Where-Object { $_ -match 'FAILED|Error while|rows affected|Loading data to table' } |
+    ($out -split "`r?`n") |
+        Where-Object { $_.Trim() -ne '' -and $_ -notmatch $NoisePattern -and $_ -match 'rows affected|Loading data to table' } |
         ForEach-Object { Write-Host "    $($_.Trim())" }
-    if ($out -match 'FAILED|Error while') { Write-Host '    !! 该脚本报错，请检查' -ForegroundColor Red }
+    # 只有真正的大写 FAILED / 编译错误才算失败
+    if ($out -cmatch 'FAILED|Error while compiling|Error: ') {
+        Write-Host '    !! 该脚本报错，请检查' -ForegroundColor Red
+        ($out -split "`r?`n") |
+            Where-Object { $_ -cmatch 'FAILED|Error' } |
+            Select-Object -First 3 |
+            ForEach-Object { Write-Host "    $($_.Trim())" -ForegroundColor Red }
+    }
+}
+
+function Check($f) {
+    $out = docker exec $Container beeline --silent=true -u $Jdbc -f $f 2>&1 | Out-String
+    ($out -split "`r?`n") |
+        Where-Object { $_.Trim() -ne '' -and $_ -notmatch $NoisePattern } |
+        ForEach-Object { Write-Host $_ }
 }
 
 Set-Location $ProjectDir
@@ -100,8 +117,8 @@ Run '/sql/clean/02_clean_product.sql'
 Run '/sql/clean/03_dedup_order.sql'
 
 Title '7. 行数与清洗结果校验'
-docker exec $Container beeline --silent=true -u $Jdbc -f /sql/ods/91_count_check.sql
-docker exec $Container beeline --silent=true -u $Jdbc -f /sql/clean/90_clean_check.sql
+Check '/sql/ods/91_count_check.sql'
+Check '/sql/clean/90_clean_check.sql'
 
 Title '完成'
 Write-Host '期望结果: ODS 6 张表行数全 OK；DWD 三表 1000 / 600 / 15000。' -ForegroundColor Green
