@@ -1,5 +1,5 @@
 -- ODS 层：把 6 个 CSV 导入对应表（文件需已在容器 /data 下）
--- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/ods/90_load_all.sql
+-- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/ods/load_ods.sql
 -- 重复导入前先 truncate，避免数据翻倍
 
 -- ods_user

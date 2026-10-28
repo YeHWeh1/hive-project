@@ -1,5 +1,5 @@
 -- ODS 层：建库 + 6 张贴源表
--- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/ods/00_create_all.sql
+-- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/ods/create_ods.sql
 
 create database if not exists ydsh_ods;
 
