@@ -1,11 +1,12 @@
 项目：云购生活新零售企业 —— 企业级数据仓库与经营分析可视化系统
+团队：云仓五号（刘祎炫、张业彬、闫洪伟、柴传兴、邓克超）
 仓库：https://github.com/liuwu-123/hive-project
-分支：main　提交总数：16　当前 HEAD：2d16385
-导出时间：2026-10-28 14:46
+分支：main　提交总数：18　当前 HEAD：4a80611
+导出时间：2026-10-29 14:43
 
 说明：提交信息遵循 feat: / fix: / docs: / chore: 规范，
       完整历史可在上面仓库地址的 Commits 页面查看。
 
 ==============================================================================
 
-2d16385  2026-10-28 14:37  chore: .gitignore 忽略打包文件 fa24707  2026-10-28 14:33  fix(scripts): 修正误报（大小写不敏感匹配）并过滤 beeline 无害噪音 2f0bf27  2026-10-28 14:30  fix(scripts): 就绪探测改用退出码判断，并打印每次探测进度 7dfc832  2026-10-28 14:30  docs: 新增 README 与第 1 周 AI 协同日志（团队信息待填） b1535f1  2026-10-28 09:42  fix(scripts): rebuild_all 改为 Continue 并抑制 beeline 噪音，避免 stderr 中断脚本 485c882  2026-10-28 09:36  docs: 归档 5 张关键截图并在环境搭建笔记中引用 9133115  2026-10-28 09:17  docs: 新增环境搭建笔记（7 个实际问题的现象、原因与解决） 590cfa2  2026-10-28 09:08  fix(scripts): rebuild_all.ps1 增加清空步骤，避免重复导入导致行数翻倍 dda7681  2026-10-28 09:04  chore: 脚本改名对齐提交清单，新增一键恢复脚本 rebuild_all.ps1 a23a0dd  2026-10-28 08:49  feat(clean): 新增缺失值填充与订单去重脚本 cb556d8  2026-10-28 08:45  feat(quality): 新增数据质量五维度预评估表与抽查脚本 81e982f  2026-10-28 08:07  feat(ods): 新增 ODS 层 6 张表的建表、导入与行数校验脚本 f5969d0  2026-10-27 11:35  chore: 添加 .gitignore 与项目目录结构 1edb6fc  2026-10-27 11:21  Merge branch 'main' of github.com:liuwu-123/hive-project 82e9569  2026-10-27 10:34  feat: 初始化项目结构 dd2fbea  2026-03-09 09:16  Initial commit
+4a80611  2026-10-29 14:13  docs(resume): 新增求职简历（docx/pdf/md + AI 协同日志） 26da9ea  2026-10-28 14:46  docs: 新增 git 提交记录导出，作为版本管理证据随包提交 2d16385  2026-10-28 14:37  chore: .gitignore 忽略打包文件 fa24707  2026-10-28 14:33  fix(scripts): 修正误报（大小写不敏感匹配）并过滤 beeline 无害噪音 2f0bf27  2026-10-28 14:30  fix(scripts): 就绪探测改用退出码判断，并打印每次探测进度 7dfc832  2026-10-28 14:30  docs: 新增 README 与第 1 周 AI 协同日志（团队信息待填） b1535f1  2026-10-28 09:42  fix(scripts): rebuild_all 改为 Continue 并抑制 beeline 噪音，避免 stderr 中断脚本 485c882  2026-10-28 09:36  docs: 归档 5 张关键截图并在环境搭建笔记中引用 9133115  2026-10-28 09:17  docs: 新增环境搭建笔记（7 个实际问题的现象、原因与解决） 590cfa2  2026-10-28 09:08  fix(scripts): rebuild_all.ps1 增加清空步骤，避免重复导入导致行数翻倍 dda7681  2026-10-28 09:04  chore: 脚本改名对齐提交清单，新增一键恢复脚本 rebuild_all.ps1 a23a0dd  2026-10-28 08:49  feat(clean): 新增缺失值填充与订单去重脚本 cb556d8  2026-10-28 08:45  feat(quality): 新增数据质量五维度预评估表与抽查脚本 81e982f  2026-10-28 08:07  feat(ods): 新增 ODS 层 6 张表的建表、导入与行数校验脚本 f5969d0  2026-10-27 11:35  chore: 添加 .gitignore 与项目目录结构 1edb6fc  2026-10-27 11:21  Merge branch 'main' of github.com:liuwu-123/hive-project 82e9569  2026-10-27 10:34  feat: 初始化项目结构 dd2fbea  2026-03-09 09:16  Initial commit
