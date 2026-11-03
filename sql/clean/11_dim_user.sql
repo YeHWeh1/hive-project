@@ -1,6 +1,6 @@
 -- 第 2 周 · 子任务 1+2：用户维度表（枚举标准化 + 格式统一 + 缺失值）
 -- 来源：ydsh_ods.ods_user（贴源层）→ ydsh_dwd.dim_user（明细层）
--- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/dwd/11_dim_user.sql
+-- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/clean/11_dim_user.sql
 
 create table if not exists ydsh_dwd.dim_user (
   user_id             string    comment '用户ID',

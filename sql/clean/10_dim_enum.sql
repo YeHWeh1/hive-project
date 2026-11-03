@@ -1,6 +1,6 @@
 -- 第 2 周 · 子任务 1：枚举字段标准化（编码映射表 + 维表）
 -- 设计：脏值(raw) -> map 表 -> 标准编码(code) -> dim 表 -> 中文名称(name)
--- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/dwd/10_dim_enum.sql
+-- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/clean/10_dim_enum.sql
 
 create database if not exists ydsh_dwd;
 

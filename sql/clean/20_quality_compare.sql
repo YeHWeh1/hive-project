@@ -1,5 +1,5 @@
 -- 第 2 周 · 子任务 4：数据质量对比（清洗前 ODS vs 清洗后 DWD）
--- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/dwd/20_quality_compare.sql
+-- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/clean/20_quality_compare.sql
 -- 说明：每条指标一个独立 SELECT，避免单 DAG 内 union 分支过多触发 Tez 计数器上限（120）
 -- 修复率 = (清洗前 - 清洗后) / 清洗前
 

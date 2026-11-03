@@ -1,5 +1,5 @@
 -- 第 2 周 · 门店维度表 + 日期维度表
--- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/dwd/13_dim_store_date.sql
+-- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/clean/13_dim_store_date.sql
 
 -- ========== 门店维度 ==========
 create table if not exists ydsh_dwd.dim_store (

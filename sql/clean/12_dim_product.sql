@@ -1,6 +1,6 @@
 -- 第 2 周 · 子任务 1+2：商品维度表
 -- 来源：ydsh_ods.ods_product → ydsh_dwd.dim_product
--- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/dwd/12_dim_product.sql
+-- 用法：beeline -u jdbc:hive2://localhost:10000/ -f /sql/clean/12_dim_product.sql
 
 create table if not exists ydsh_dwd.dim_product (
   product_id              string         comment '商品ID',
