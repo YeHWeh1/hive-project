@@ -20,6 +20,11 @@ services:
       - hive-metastore
     environment:
       SERVICE_NAME: hiveserver2
+      # 把 HiveServer2 的 pid 文件放到 tmpfs 上：容器每次启动该目录都是空的，
+      # 彻底避免"重启后 pid 文件残留、HiveServer2 误判已在运行而退出(Exited 1)"
+      HIVESERVER2_PID_DIR: /tmp/hive-pid
+    tmpfs:
+      - /tmp/hive-pid
     ports:
       - "10000:10000"
       - "10002:10002"
