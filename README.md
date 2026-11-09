@@ -125,3 +125,8 @@ docker exec hive-project-hive-server-1 beeline -u "jdbc:hive2://localhost:10000/
 | 缺失值处理 | ✅ `age` 均值填充、`email` 与 `launch_date` 标记/补全 |
 | 重复值去重 | ✅ `ods_order` 15600 → `dwd_order` 15000 |
 | Git 仓库与规范提交 | ✅ 提交信息遵循 `feat:` / `fix:` / `docs:` / `chore:` |
+
+## 十、第3周计划
+
+- 完成第3周课程练习，熟悉 Fork / Pull Request 协作流程。
+- 整理本周笔记并补充到仓库文档中。
