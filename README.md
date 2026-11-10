@@ -125,3 +125,11 @@ docker exec hive-project-hive-server-1 beeline -u "jdbc:hive2://localhost:10000/
 | 缺失值处理 | ✅ `age` 均值填充、`email` 与 `launch_date` 标记/补全 |
 | 重复值去重 | ✅ `ods_order` 15600 → `dwd_order` 15000 |
 | Git 仓库与规范提交 | ✅ 提交信息遵循 `feat:` / `fix:` / `docs:` / `chore:` |
+## 十、第 3 周计划（主分支）
+
+1. **DWS / ADS 与 KPI**：建 ydsh_dws、ydsh_ads 两个库，产出 5 张汇总表 + 5 张应用表，脚本在 sql/dws/、sql/ads/，指标结果见 docs/第3周_KPI指标结果表.xlsx
+2. **时间序列预测**：基于日粒度 GMV 做趋势诊断与 7 天预测，脚本 nalysis/forecast_gmv.py，报告 docs/预测建模分析报告.docx
+3. **NL2SQL**：自然语言转 Hive SQL，代码在 
+l2sql/，测试集 10 题全通过
+4. **AI 智能洞察**：程序化异常检测 + 大模型归因，脚本 insight/ai_insight.py，报告 docs/第3周_AI经营分析摘要.docx
+5. **Git 协同**：走通 Fork → Pull Request → Code Review → 冲突解决 流程
