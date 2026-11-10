@@ -126,7 +126,14 @@ docker exec hive-project-hive-server-1 beeline -u "jdbc:hive2://localhost:10000/
 | 重复值去重 | ✅ `ods_order` 15600 → `dwd_order` 15000 |
 | Git 仓库与规范提交 | ✅ 提交信息遵循 `feat:` / `fix:` / `docs:` / `chore:` |
 
-## 十、第3周计划
+## 十、第 3 周计划
 
-- 完成第3周课程练习，熟悉 Fork / Pull Request 协作流程。
-- 整理本周笔记并补充到仓库文档中。
+1. **DWS / ADS 与 KPI**：建设汇总层与应用层，计算 GMV、订单量、客单价、复购率等核心指标，
+   脚本在 `sql/dws/`、`sql/ads/`，指标结果见 `docs/第3周_KPI指标结果表.xlsx`
+2. **时间序列预测**：基于日粒度 GMV 做趋势分解与未来 7 天预测，评估 MAE / MAPE 并说明模型适用边界，
+   脚本 `analysis/forecast_gmv.py`，报告 `docs/预测建模分析报告.docx`
+3. **NL2SQL**：自然语言转 Hive SQL（Schema 抽取 + Prompt 约束 + 执行校验），
+   代码在 `nl2sql/`，10 题测试全部通过
+4. **AI 智能洞察**：程序化异常检测 + 大模型归因，对生成内容做数字回溯校验，
+   脚本 `insight/ai_insight.py`，报告 `docs/第3周_AI经营分析摘要.docx`
+5. **Git 协同**：走通 Fork → Pull Request → Code Review → 合并冲突解决 的完整流程
