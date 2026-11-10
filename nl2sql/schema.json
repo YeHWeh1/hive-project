@@ -1,0 +1,654 @@
+[
+  {
+    "db": "ydsh_dwd",
+    "table": "fact_order",
+    "cn": "订单事实表（一单一行，含金额、状态、渠道、时间）",
+    "columns": [
+      {
+        "name": "order_id",
+        "type": "string",
+        "comment": "订单ID"
+      },
+      {
+        "name": "user_id",
+        "type": "string",
+        "comment": "用户ID -> dim_user"
+      },
+      {
+        "name": "store_id",
+        "type": "string",
+        "comment": "门店ID -> dim_store"
+      },
+      {
+        "name": "order_timestamp",
+        "type": "string",
+        "comment": "下单时间戳 yyyy-MM-dd HH:mm:ss"
+      },
+      {
+        "name": "pay_amount",
+        "type": "decimal(12",
+        "comment": "2)"
+      },
+      {
+        "name": "discount_amount",
+        "type": "decimal(12",
+        "comment": "2)"
+      },
+      {
+        "name": "pay_code",
+        "type": "string",
+        "comment": "支付方式编码 -> dim_pay_type"
+      },
+      {
+        "name": "status_code",
+        "type": "string",
+        "comment": "订单状态编码 -> dim_order_status"
+      },
+      {
+        "name": "channel_code",
+        "type": "string",
+        "comment": "渠道编码 -> dim_channel"
+      },
+      {
+        "name": "amount_invalid",
+        "type": "tinyint",
+        "comment": "1=原始金额异常（负值或超10万）"
+      },
+      {
+        "name": "order_month",
+        "type": "string",
+        "comment": "下单月份 yyyy-MM"
+      },
+      {
+        "name": "order_month",
+        "type": "string",
+        "comment": "下单月份 yyyy-MM"
+      }
+    ]
+  },
+  {
+    "db": "ydsh_dwd",
+    "table": "fact_order_item",
+    "cn": "订单明细事实表（一商品一行，含数量、单价、明细金额）",
+    "columns": [
+      {
+        "name": "item_id",
+        "type": "string",
+        "comment": "明细ID"
+      },
+      {
+        "name": "order_id",
+        "type": "string",
+        "comment": "订单ID -> fact_order"
+      },
+      {
+        "name": "product_id",
+        "type": "string",
+        "comment": "商品ID -> dim_product"
+      },
+      {
+        "name": "quantity",
+        "type": "int",
+        "comment": "数量（<=0 视为异常）"
+      },
+      {
+        "name": "unit_price",
+        "type": "decimal(12",
+        "comment": "2)"
+      },
+      {
+        "name": "discount",
+        "type": "decimal(5",
+        "comment": "2)"
+      },
+      {
+        "name": "item_amount",
+        "type": "decimal(14",
+        "comment": "2)"
+      },
+      {
+        "name": "qty_invalid",
+        "type": "tinyint",
+        "comment": "1=数量异常"
+      }
+    ]
+  },
+  {
+    "db": "ydsh_dwd",
+    "table": "dim_user",
+    "cn": "用户维度表（含性别、年龄、省市、会员等级编码）",
+    "columns": [
+      {
+        "name": "user_id",
+        "type": "string",
+        "comment": "用户ID"
+      },
+      {
+        "name": "user_name",
+        "type": "string",
+        "comment": "姓名"
+      },
+      {
+        "name": "gender_code",
+        "type": "string",
+        "comment": "性别编码 -> dim_gender"
+      },
+      {
+        "name": "age",
+        "type": "int",
+        "comment": "年龄（异常值已填充）"
+      },
+      {
+        "name": "age_is_filled",
+        "type": "tinyint",
+        "comment": "1=原始缺失或越界，已填充"
+      },
+      {
+        "name": "city",
+        "type": "string",
+        "comment": "城市"
+      },
+      {
+        "name": "province",
+        "type": "string",
+        "comment": "省份"
+      },
+      {
+        "name": "region",
+        "type": "string",
+        "comment": "省-市合并（子任务3）"
+      },
+      {
+        "name": "register_date",
+        "type": "string",
+        "comment": "注册日期 yyyy-MM-dd"
+      },
+      {
+        "name": "member_level_code",
+        "type": "string",
+        "comment": "会员等级编码 -> dim_member_level"
+      },
+      {
+        "name": "phone",
+        "type": "string",
+        "comment": "手机号（11 位纯数字）"
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "comment": "邮箱（保留原值）"
+      },
+      {
+        "name": "email_is_missing",
+        "type": "tinyint",
+        "comment": "1=原始缺失"
+      }
+    ]
+  },
+  {
+    "db": "ydsh_dwd",
+    "table": "dim_product",
+    "cn": "商品维度表（含品类、品牌、价格、状态）",
+    "columns": [
+      {
+        "name": "product_id",
+        "type": "string",
+        "comment": "商品ID"
+      },
+      {
+        "name": "product_name",
+        "type": "string",
+        "comment": "商品名称（已去首尾空格）"
+      },
+      {
+        "name": "category",
+        "type": "string",
+        "comment": "一级品类"
+      },
+      {
+        "name": "sub_category",
+        "type": "string",
+        "comment": "二级品类"
+      },
+      {
+        "name": "brand",
+        "type": "string",
+        "comment": "品牌"
+      },
+      {
+        "name": "price",
+        "type": "decimal(12",
+        "comment": "2)"
+      },
+      {
+        "name": "cost",
+        "type": "decimal(12",
+        "comment": "2)"
+      },
+      {
+        "name": "stock",
+        "type": "int",
+        "comment": "库存"
+      },
+      {
+        "name": "status_code",
+        "type": "string",
+        "comment": "状态编码 -> dim_product_status"
+      },
+      {
+        "name": "launch_date",
+        "type": "string",
+        "comment": "上架日期 yyyy-MM-dd（已补全）"
+      },
+      {
+        "name": "launch_date_is_missing",
+        "type": "tinyint",
+        "comment": "1=原始缺失"
+      }
+    ]
+  },
+  {
+    "db": "ydsh_dwd",
+    "table": "dim_store",
+    "cn": "门店维度表（含省市、区县、面积、店长）",
+    "columns": [
+      {
+        "name": "store_id",
+        "type": "string",
+        "comment": "门店ID"
+      },
+      {
+        "name": "store_name",
+        "type": "string",
+        "comment": "门店名称"
+      },
+      {
+        "name": "province",
+        "type": "string",
+        "comment": "省份"
+      },
+      {
+        "name": "city",
+        "type": "string",
+        "comment": "城市"
+      },
+      {
+        "name": "district",
+        "type": "string",
+        "comment": "区县"
+      },
+      {
+        "name": "address",
+        "type": "string",
+        "comment": "详细地址"
+      },
+      {
+        "name": "open_date",
+        "type": "string",
+        "comment": "开业日期 yyyy-MM-dd"
+      },
+      {
+        "name": "area",
+        "type": "int",
+        "comment": "面积(平米)"
+      },
+      {
+        "name": "manager",
+        "type": "string",
+        "comment": "店长"
+      }
+    ]
+  },
+  {
+    "db": "ydsh_dwd",
+    "table": "dim_date",
+    "cn": "日期维度表（2023-2025 每天，含星期、季度、是否周末）",
+    "columns": [
+      {
+        "name": "date_key",
+        "type": "string",
+        "comment": "日期 yyyy-MM-dd"
+      },
+      {
+        "name": "year_no",
+        "type": "int",
+        "comment": ""
+      },
+      {
+        "name": "month_no",
+        "type": "int",
+        "comment": ""
+      },
+      {
+        "name": "day_no",
+        "type": "int",
+        "comment": ""
+      },
+      {
+        "name": "weekday_name",
+        "type": "string",
+        "comment": ""
+      },
+      {
+        "name": "week_of_year",
+        "type": "int",
+        "comment": ""
+      },
+      {
+        "name": "quarter_no",
+        "type": "int",
+        "comment": ""
+      },
+      {
+        "name": "is_weekend",
+        "type": "tinyint",
+        "comment": ""
+      }
+    ]
+  },
+  {
+    "db": "ydsh_dwd",
+    "table": "dim_member_level",
+    "cn": "会员等级维表（level_code, level_name）",
+    "columns": [
+      {
+        "name": "level_code",
+        "type": "string",
+        "comment": "编码"
+      },
+      {
+        "name": "level_name",
+        "type": "string",
+        "comment": "标准名称"
+      },
+      {
+        "name": "sort_no",
+        "type": "int",
+        "comment": "等级排序，1 最高"
+      }
+    ]
+  },
+  {
+    "db": "ydsh_dwd",
+    "table": "dim_order_status",
+    "cn": "订单状态维表（status_code, status_name）",
+    "columns": [
+      {
+        "name": "status_code",
+        "type": "string",
+        "comment": ""
+      },
+      {
+        "name": "status_name",
+        "type": "string",
+        "comment": ""
+      },
+      {
+        "name": "sort_no",
+        "type": "int",
+        "comment": ""
+      }
+    ]
+  },
+  {
+    "db": "ydsh_dwd",
+    "table": "dim_pay_type",
+    "cn": "支付方式维表（pay_code, pay_name）",
+    "columns": [
+      {
+        "name": "pay_code",
+        "type": "string",
+        "comment": ""
+      },
+      {
+        "name": "pay_name",
+        "type": "string",
+        "comment": ""
+      }
+    ]
+  },
+  {
+    "db": "ydsh_dwd",
+    "table": "dim_channel",
+    "cn": "下单渠道维表（channel_code, channel_name）",
+    "columns": [
+      {
+        "name": "channel_code",
+        "type": "string",
+        "comment": ""
+      },
+      {
+        "name": "channel_name",
+        "type": "string",
+        "comment": ""
+      }
+    ]
+  },
+  {
+    "db": "ydsh_dws",
+    "table": "dws_sales_day",
+    "cn": "日粒度销售汇总（日期、订单量、GMV、客单价）",
+    "columns": [
+      {
+        "name": "stat_date",
+        "type": "string",
+        "comment": "统计日期 yyyy-MM-dd"
+      },
+      {
+        "name": "order_cnt",
+        "type": "bigint",
+        "comment": "订单量"
+      },
+      {
+        "name": "gmv",
+        "type": "decimal(18",
+        "comment": "2)"
+      },
+      {
+        "name": "buyer_cnt",
+        "type": "bigint",
+        "comment": "下单用户数"
+      },
+      {
+        "name": "aov",
+        "type": "decimal(12",
+        "comment": "2)"
+      },
+      {
+        "name": "cancel_cnt",
+        "type": "bigint",
+        "comment": "已取消订单数"
+      },
+      {
+        "name": "refund_cnt",
+        "type": "bigint",
+        "comment": "退款中订单数"
+      }
+    ]
+  },
+  {
+    "db": "ydsh_dws",
+    "table": "dws_sales_month",
+    "cn": "月粒度销售汇总（含取消率、退款率）",
+    "columns": [
+      {
+        "name": "stat_month",
+        "type": "string",
+        "comment": "统计月份 yyyy-MM"
+      },
+      {
+        "name": "order_cnt",
+        "type": "bigint",
+        "comment": ""
+      },
+      {
+        "name": "gmv",
+        "type": "decimal(18",
+        "comment": "2)"
+      },
+      {
+        "name": "buyer_cnt",
+        "type": "bigint",
+        "comment": ""
+      },
+      {
+        "name": "aov",
+        "type": "decimal(12",
+        "comment": "2)"
+      },
+      {
+        "name": "cancel_rate",
+        "type": "decimal(6",
+        "comment": "4)"
+      },
+      {
+        "name": "refund_rate",
+        "type": "decimal(6",
+        "comment": "4)"
+      }
+    ]
+  },
+  {
+    "db": "ydsh_ads",
+    "table": "ads_kpi_overview",
+    "cn": "核心 KPI 总览（指标名、值、单位、口径）",
+    "columns": [
+      {
+        "name": "kpi_name",
+        "type": "string",
+        "comment": "指标名"
+      },
+      {
+        "name": "kpi_value",
+        "type": "decimal(18",
+        "comment": "2)"
+      },
+      {
+        "name": "kpi_unit",
+        "type": "string",
+        "comment": "单位"
+      },
+      {
+        "name": "definition",
+        "type": "string",
+        "comment": "口径说明"
+      }
+    ]
+  },
+  {
+    "db": "ydsh_ads",
+    "table": "ads_category_topn",
+    "cn": "品类销售排行（含占比）",
+    "columns": [
+      {
+        "name": "rk",
+        "type": "int",
+        "comment": ""
+      },
+      {
+        "name": "category",
+        "type": "string",
+        "comment": ""
+      },
+      {
+        "name": "order_cnt",
+        "type": "bigint",
+        "comment": ""
+      },
+      {
+        "name": "qty",
+        "type": "bigint",
+        "comment": ""
+      },
+      {
+        "name": "sales",
+        "type": "decimal(18",
+        "comment": "2)"
+      },
+      {
+        "name": "sales_ratio",
+        "type": "decimal(6",
+        "comment": "4)"
+      }
+    ]
+  },
+  {
+    "db": "ydsh_ads",
+    "table": "ads_store_topn",
+    "cn": "门店销售排行",
+    "columns": [
+      {
+        "name": "rk",
+        "type": "int",
+        "comment": ""
+      },
+      {
+        "name": "store_id",
+        "type": "string",
+        "comment": ""
+      },
+      {
+        "name": "store_name",
+        "type": "string",
+        "comment": ""
+      },
+      {
+        "name": "province",
+        "type": "string",
+        "comment": ""
+      },
+      {
+        "name": "city",
+        "type": "string",
+        "comment": ""
+      },
+      {
+        "name": "order_cnt",
+        "type": "bigint",
+        "comment": ""
+      },
+      {
+        "name": "gmv",
+        "type": "decimal(18",
+        "comment": "2)"
+      },
+      {
+        "name": "aov",
+        "type": "decimal(12",
+        "comment": "2)"
+      }
+    ]
+  },
+  {
+    "db": "ydsh_ads",
+    "table": "ads_user_value",
+    "cn": "用户价值分层（累计消费、订单数、最近下单、层级）",
+    "columns": [
+      {
+        "name": "user_id",
+        "type": "string",
+        "comment": ""
+      },
+      {
+        "name": "total_amount",
+        "type": "decimal(18",
+        "comment": "2)"
+      },
+      {
+        "name": "order_cnt",
+        "type": "bigint",
+        "comment": ""
+      },
+      {
+        "name": "last_order",
+        "type": "string",
+        "comment": "最近下单日期"
+      },
+      {
+        "name": "value_level",
+        "type": "string",
+        "comment": "价值分层"
+      }
+    ]
+  }
+]

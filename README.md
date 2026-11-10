@@ -128,7 +128,8 @@ docker exec hive-project-hive-server-1 beeline -u "jdbc:hive2://localhost:10000/
 
 ## 十、第 3 周计划
 
-1. **DWS / ADS 与 KPI**：建设汇总层与应用层，计算 GMV、订单量、客单价、复购率等核心指标，
+1. **DWS / ADS 与 KPI**：建 `ydsh_dws`、`ydsh_ads` 两个库，产出 5 张汇总表 + 5 张应用表，
+   计算 GMV、订单量、客单价、复购率等核心指标，
    脚本在 `sql/dws/`、`sql/ads/`，指标结果见 `docs/第3周_KPI指标结果表.xlsx`
 2. **时间序列预测**：基于日粒度 GMV 做趋势分解与未来 7 天预测，评估 MAE / MAPE 并说明模型适用边界，
    脚本 `analysis/forecast_gmv.py`，报告 `docs/预测建模分析报告.docx`
