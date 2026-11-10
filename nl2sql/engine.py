@@ -43,7 +43,7 @@ def load_env(path=ENV_FILE):
     return key, model or "deepseek-chat", base or "https://api.deepseek.com"
 
 
-def llm_call(system_prompt: str, user_prompt: str, temperature: float = 0.0, timeout: int = 60):
+def llm_call(system_prompt: str, user_prompt: str, temperature: float = 0.0, timeout: int = 60, max_tokens: int = 800):
     key, model, base = load_env()
     if not key:
         raise RuntimeError("未找到 DEEPSEEK_API_KEY，请检查 E:\\hive-project\\.env")
@@ -55,7 +55,7 @@ def llm_call(system_prompt: str, user_prompt: str, temperature: float = 0.0, tim
             {"role": "user", "content": user_prompt},
         ],
         "temperature": temperature,
-        "max_tokens": 800,
+        "max_tokens": max_tokens,
     }).encode("utf-8")
 
     req = urllib.request.Request(base.rstrip("/") + "/chat/completions", data=payload, method="POST")
